@@ -70,6 +70,9 @@ class MainActivity : AppCompatActivity(), OnTimerTickListener {
             }
         }
 
+        binding.playButton.isEnabled = false
+        binding.playButton.alpha = 0.3f
+
         binding.stopButton.setOnClickListener {
             when(state) {
                 State.PLAYING -> {
@@ -87,7 +90,7 @@ class MainActivity : AppCompatActivity(), OnTimerTickListener {
                 this,
                 android.Manifest.permission.RECORD_AUDIO
             ) == PackageManager.PERMISSION_GRANTED -> {
-                //TODO 실제로 녹음을 시작하면됨
+                // 실제로 녹음을 시작하면됨
                 onRecord(true)
             }
             ActivityCompat.shouldShowRequestPermissionRationale(
@@ -219,7 +222,7 @@ class MainActivity : AppCompatActivity(), OnTimerTickListener {
 
     private fun showPermissionSettingDialog() {
         AlertDialog.Builder(this)
-            .setMessage("녹음 권한을 켜주셔야지 앱을 정상적으로 사용할 수 있습니다.앱 설정 화면으로 진입하셔서 권한을 켜주세요")
+            .setMessage(getString(R.string.permission_setting_message))
             .setPositiveButton("권한 변경하러 가기") { _, _ ->
                 navigateToAppSetting()
             }
@@ -245,7 +248,7 @@ class MainActivity : AppCompatActivity(), OnTimerTickListener {
                 && grantResults.firstOrNull() == PackageManager.PERMISSION_GRANTED
 
         if(audioRecordPermissionGranted) {
-            //TODO 녹음 작업을 시작함
+            // 녹음 작업을 시작함
             onRecord(true)
         }else {
             if(ActivityCompat.shouldShowRequestPermissionRationale(
@@ -265,7 +268,7 @@ class MainActivity : AppCompatActivity(), OnTimerTickListener {
         binding.timerTextView.text = String.format("%02d:%02d.%02d", minute, second, millisecond / 10)
 
         if(state == State.PLAYING) {
-            binding.waveformView.replayAmplitude(duration)
+            binding.waveformView.replayAmplitude()
         } else if (state == State.RECORDING) {
             binding.waveformView.addAmplitude(recorder?.maxAmplitude?.toFloat() ?: 0f)
         }
