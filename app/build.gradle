@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace 'com.example.chapter2'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.example.chapter2"
@@ -29,6 +29,10 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+
+    buildFeatures {
+        viewBinding = true
     }
 }
 
